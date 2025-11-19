@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminCouponTable from "../../components/admin/coupons/AdminCouponTable";
+import { adminCouponApi } from "../../api/adminCouponApi";
 import Loader from "../../components/common/Loader";
 import ErrorMessage from "../../components/common/ErrorMessage";
 
@@ -17,8 +18,8 @@ const AdminCouponListPage = () => {
   const fetchCoupons = async () => {
     try {
       setLoading(true);
-      // TODO: API 연결
-      setCoupons([]);
+      const data = await adminCouponApi.getCoupons();
+      setCoupons(data.coupons || []);
     } catch (err) {
       setError(err.message || "데이터를 불러오는데 실패했습니다.");
     } finally {
@@ -30,7 +31,7 @@ const AdminCouponListPage = () => {
     if (!confirm("정말 삭제하시겠습니까?")) return;
 
     try {
-      // TODO: API 연결
+      await adminCouponApi.deleteCoupon(couponId);
       fetchCoupons();
     } catch (err) {
       alert(err.message || "삭제에 실패했습니다.");

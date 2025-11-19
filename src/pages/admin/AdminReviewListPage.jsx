@@ -16,7 +16,7 @@ const AdminReviewListPage = () => {
 
   useEffect(() => {
     fetchReviews();
-  }, [currentPage]);
+  }, [currentPage, filters]);
 
   const fetchReviews = async () => {
     try {
@@ -40,7 +40,7 @@ const AdminReviewListPage = () => {
 
   const handleSearch = () => {
     setCurrentPage(1);
-    fetchReviews();
+    // filters가 업데이트되면 useEffect가 자동으로 fetchReviews를 호출함
   };
 
   const handleDelete = async (reviewId) => {

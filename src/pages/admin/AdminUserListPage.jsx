@@ -16,7 +16,7 @@ const AdminUserListPage = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [currentPage]);
+  }, [currentPage, filters]);
 
   const fetchUsers = async () => {
     try {
@@ -40,7 +40,7 @@ const AdminUserListPage = () => {
 
   const handleSearch = () => {
     setCurrentPage(1);
-    fetchUsers();
+    // filters가 업데이트되면 useEffect가 자동으로 fetchUsers를 호출함
   };
 
   const handleStatusChange = async (userId, status) => {

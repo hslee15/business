@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import AdminBookingFilter from "../../components/admin/bookings/AdminBookingFilter";
 import AdminBookingTable from "../../components/admin/bookings/AdminBookingTable";
 import Pagination from "../../components/common/Pagination";
@@ -7,6 +8,7 @@ import Loader from "../../components/common/Loader";
 import ErrorMessage from "../../components/common/ErrorMessage";
 
 const AdminBookingListPage = () => {
+  const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [filters, setFilters] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,7 +18,7 @@ const AdminBookingListPage = () => {
 
   useEffect(() => {
     fetchBookings();
-  }, [currentPage]);
+  }, [currentPage, filters]);
 
   const fetchBookings = async () => {
     try {
@@ -40,16 +42,20 @@ const AdminBookingListPage = () => {
 
   const handleSearch = () => {
     setCurrentPage(1);
-    fetchBookings();
+    // filters가 업데이트되면 useEffect가 자동으로 fetchBookings를 호출함
   };
 
-  const handleStatusChange = async (bookingId, status) => {
+  const handleProcess = async (bookingId, status) => {
     try {
       await adminBookingApi.updateBookingStatus(bookingId, status);
       fetchBookings();
     } catch (err) {
-      alert(err.message || "상태 변경에 실패했습니다.");
+      alert(err.message || "처리에 실패했습니다.");
     }
+  };
+
+  const handleEdit = (bookingId) => {
+    navigate(`/admin/bookings/${bookingId}`);
   };
 
   const handleCancel = async (bookingId) => {
@@ -81,7 +87,8 @@ const AdminBookingListPage = () => {
 
       <AdminBookingTable
         bookings={bookings}
-        onStatusChange={handleStatusChange}
+        onProcess={handleProcess}
+        onEdit={handleEdit}
         onCancel={handleCancel}
       />
 

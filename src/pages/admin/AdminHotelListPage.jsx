@@ -18,7 +18,7 @@ const AdminHotelListPage = () => {
 
   useEffect(() => {
     fetchHotels();
-  }, [currentPage]);
+  }, [currentPage, filters]);
 
   const fetchHotels = async () => {
     try {
@@ -42,7 +42,7 @@ const AdminHotelListPage = () => {
 
   const handleSearch = () => {
     setCurrentPage(1);
-    fetchHotels();
+    // filters가 업데이트되면 useEffect가 자동으로 fetchHotels를 호출함
   };
 
   const handleApprove = async (hotelId) => {
@@ -84,12 +84,6 @@ const AdminHotelListPage = () => {
     <div className="admin-hotel-list-page">
       <div className="page-header">
         <h1>호텔 관리</h1>
-        <button
-          onClick={() => navigate("/admin/hotels/new")}
-          className="btn btn-primary"
-        >
-          호텔 등록
-        </button>
       </div>
 
       <AdminHotelFilter

@@ -17,7 +17,7 @@ const StatusBadge = ({ status, type = "booking" }) => {
         pending: { label: "승인대기", className: "badge-warning" },
         approved: { label: "승인", className: "badge-success" },
         rejected: { label: "거부", className: "badge-danger" },
-        active: { label: "활성", className: "badge-success" },
+        active: { label: "활성", className: "badge-info" },
         inactive: { label: "비활성", className: "badge-secondary" },
       };
       return (
